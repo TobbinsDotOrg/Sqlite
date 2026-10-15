@@ -1,0 +1,52 @@
+namespace Tobbins.Database.Sqlite;
+int IsNull(mixed value) {return __pebble("is_null",value);}
+// Decimal helpers preserve SQLite's i64/f64 values on Tobbins' u32 runtime.
+mixed Integer(string decimal) { return ["$integer":decimal]; }
+mixed Real(string decimal) { return ["$real":decimal]; }
+class SqliteConnection {
+    private Object native;
+    construct(string path) { this.native=__pebble("open",path); }
+    Close() { var ignored=__pebble("close",this.native); }
+    destruct() { this.Close(); }
+    mixed LastInsertRowId() { return __pebble("last_id",this.native); }
+    int Changes() { return __pebble("changes",this.native); }
+    SqliteStatement Prepare(string sql) { return new SqliteStatement(__pebble("prepare",this.native,sql)); }
+    SqliteTransaction BeginTransaction() { return new SqliteTransaction(__pebble("begin",this.native)); }
+    int Execute(string sql) { return (int)__pebble("run",this.native,sql,[],0); }
+    int ExecuteWith(string sql,mixed parameters) { return (int)__pebble("run",this.native,sql,parameters,0); }
+    Array<mixed> Query(string sql) { return (Array<mixed>)__pebble("run",this.native,sql,[],1); }
+    Array<mixed> QueryWith(string sql,mixed parameters) { return (Array<mixed>)__pebble("run",this.native,sql,parameters,1); }
+    mixed QueryOne(string sql) { return __pebble("run",this.native,sql,[],2); }
+    mixed QueryOneWith(string sql,mixed parameters) { return __pebble("run",this.native,sql,parameters,2); }
+    mixed ExecuteScalar(string sql) { return __pebble("run",this.native,sql,[],3); }
+    mixed ExecuteScalarWith(string sql,mixed parameters) { return __pebble("run",this.native,sql,parameters,3); }
+}
+class SqliteStatement {
+    private Object native;
+    construct(Object native) { this.native=native; }
+    Close() {var ignored=__pebble("statement_close",this.native);}
+    destruct() {this.Close();}
+    int Execute() {return (int)__pebble("statement_run",this.native,[],0);}
+    int ExecuteWith(mixed parameters) {return (int)__pebble("statement_run",this.native,parameters,0);}
+    Array<mixed> Query() {return (Array<mixed>)__pebble("statement_run",this.native,[],1);}
+    Array<mixed> QueryWith(mixed parameters) {return (Array<mixed>)__pebble("statement_run",this.native,parameters,1);}
+    mixed QueryOne() {return __pebble("statement_run",this.native,[],2);}
+    mixed QueryOneWith(mixed parameters) {return __pebble("statement_run",this.native,parameters,2);}
+    mixed ExecuteScalar() {return __pebble("statement_run",this.native,[],3);}
+    mixed ExecuteScalarWith(mixed parameters) {return __pebble("statement_run",this.native,parameters,3);}
+}
+class SqliteTransaction {
+    private Object native;
+    construct(Object native) { this.native=native; }
+    Commit() {var ignored=__pebble("finish",this.native,1);}
+    Rollback() {var ignored=__pebble("finish",this.native,0);}
+    destruct() {this.Rollback();}
+    int Execute(string sql) {return (int)__pebble("transaction_run",this.native,sql,[],0);}
+    int ExecuteWith(string sql,mixed parameters) {return (int)__pebble("transaction_run",this.native,sql,parameters,0);}
+    Array<mixed> Query(string sql) {return (Array<mixed>)__pebble("transaction_run",this.native,sql,[],1);}
+    Array<mixed> QueryWith(string sql,mixed parameters) {return (Array<mixed>)__pebble("transaction_run",this.native,sql,parameters,1);}
+    mixed QueryOne(string sql) {return __pebble("transaction_run",this.native,sql,[],2);}
+    mixed QueryOneWith(string sql,mixed parameters) {return __pebble("transaction_run",this.native,sql,parameters,2);}
+    mixed ExecuteScalar(string sql) {return __pebble("transaction_run",this.native,sql,[],3);}
+    mixed ExecuteScalarWith(string sql,mixed parameters) {return __pebble("transaction_run",this.native,sql,parameters,3);}
+}

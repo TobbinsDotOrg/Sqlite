@@ -1,0 +1,19 @@
+[package]
+name = "tobbins-sqlite"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+license = "MIT"
+publish = false
+[lib]
+name = "tobbins_sqlite"
+path = "rust/src/lib.rs"
+crate-type = ["cdylib", "staticlib", "rlib"]
+[dependencies]
+rusqlite = { version = "=0.40.2", features = ["bundled", "hooks", "limits"] }
+[profile.release]
+opt-level = 3
+panic = "unwind"
+lto = false
+codegen-units = 1
+strip = false

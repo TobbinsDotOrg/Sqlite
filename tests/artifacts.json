@@ -1,0 +1,59 @@
+{
+  "package": "Tobbins.Database.Sqlite",
+  "version": "0.1.0",
+  "tobbins": ">=0.2.0 <0.3.0",
+  "native_abi": "1.1",
+  "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+  "rusqlite": "0.40.2",
+  "libsqlite3_sys": "0.38.2",
+  "artifacts": {
+    "windows-amd64": {
+      "dynamic": {
+        "path": "native/windows-amd64/tobbins_sqlite.dll",
+        "bytes": 2040832,
+        "sha256": "ad08b1240a6bbf00061865dbac84ac392504468726223e7064883c4c061af77a"
+      },
+      "static": {
+        "path": "native/windows-amd64/tobbins_sqlite.lib",
+        "bytes": 14951368,
+        "sha256": "2e1c2a46208da909e0a91a7ffe755df66b639ecd9d053c2707dcb3b5ea650d2c"
+      },
+      "import": {
+        "path": "native/windows-amd64/tobbins_sqlite.dll.lib",
+        "bytes": 1962,
+        "sha256": "e44ce6a2ad4324c514b21c2434ba174f14380514039b9d1279ddfb66efdbd1a1"
+      }
+    },
+    "linux-amd64": {
+      "dynamic": {
+        "path": "native/linux-amd64/libtobbins_sqlite.so",
+        "bytes": 2413528,
+        "sha256": "cfc6d2917214354f3141336b4c055fee10343fb721440c0638e6e51ac975524f"
+      },
+      "static": {
+        "path": "native/linux-amd64/libtobbins_sqlite.a",
+        "bytes": 16981736,
+        "sha256": "02a7fd31644b1696a566afce2e31fe3be8b6a66ec887b328e0652506642f17b2"
+      }
+    },
+    "darwin-arm64": {
+      "dynamic": {
+        "path": "native/darwin-arm64/libtobbins_sqlite.dylib",
+        "bytes": 2297632,
+        "sha256": "acd1588a151063c1230fb2f12a241ca49ad0babcbed2f232546cdfceffce3d74"
+      },
+      "static": {
+        "path": "native/darwin-arm64/libtobbins_sqlite.a",
+        "bytes": 14531488,
+        "sha256": "4e0122a9979d569301b64850cfc61cfbd0e00da0ae540f2c6e865adc6fc6f5d2"
+      }
+    }
+  },
+  "tests": {
+    "windows_amd64_unit_tests": 10,
+    "windows_jit_aot_integration": "passed",
+    "linux_execution": "not run",
+    "macos_execution": "not run"
+  },
+  "expanded_native_bytes": 53218546
+}

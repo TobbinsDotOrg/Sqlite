@@ -1,0 +1,9 @@
+{
+  "platform": "windows-amd64",
+  "public_registry": false,
+  "install": true,
+  "jit": true,
+  "aot": true,
+  "compatibility_recheck": true,
+  "work": "C:\\tobbins-sqlite\\tests\\work\\1792060633311038300"
+}

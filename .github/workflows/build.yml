@@ -1,0 +1,47 @@
+name: Build native Pebble
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            target: windows-amd64
+            triple: x86_64-pc-windows-msvc
+          - os: ubuntu-latest
+            target: linux-amd64
+            triple: x86_64-unknown-linux-gnu
+          - os: macos-14
+            target: darwin-arm64
+            triple: aarch64-apple-darwin
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.triple }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install LLVM (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y llvm
+      - name: Install LLVM (macOS)
+        if: runner.os == 'macOS'
+        run: brew install llvm
+      - name: Build (Windows)
+        if: runner.os == 'Windows'
+        run: python scripts/build.py --target ${{ matrix.target }}
+      - name: Build (Linux)
+        if: runner.os == 'Linux'
+        run: python scripts/build.py --target ${{ matrix.target }}
+      - name: Build (macOS)
+        if: runner.os == 'macOS'
+        run: python scripts/build.py --target ${{ matrix.target }} --llvm-bin "$(brew --prefix llvm)/bin"
+      - name: Test Windows AMD64
+        if: runner.os == 'Windows'
+        run: cargo test --locked --target x86_64-pc-windows-msvc --lib
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sqlite-${{ matrix.target }}
+          path: native/${{ matrix.target }}/
