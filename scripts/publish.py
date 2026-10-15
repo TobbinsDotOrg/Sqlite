@@ -7,7 +7,7 @@ for target,files in metadata['platforms'].items():
     for kind in ('dynamic','static'):
         path=root/files[kind]
         if not path.is_file():raise SystemExit(f'Missing {target} {kind}: {path}')
-request=urllib.request.Request('https://tobbins.org/api/v1/publish',data=json.dumps({'repository':'https://github.com/TobbinsDotOrg/Sqlite'}).encode(),headers={'Content-Type':'application/json'},method='POST')
+request=urllib.request.Request('https://tobbins.org/api/v1/publish',data=json.dumps({'repository':'https://github.com/TobbinsDotOrg/Sqlite'}).encode(),headers={'Content-Type':'application/json','Accept':'application/json','User-Agent':'Tobbins/0.2'},method='POST')
 try:
     with urllib.request.urlopen(request,timeout=180) as response:print(response.read().decode())
 except urllib.error.HTTPError as error:
