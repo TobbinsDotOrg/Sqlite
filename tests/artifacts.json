@@ -40,12 +40,12 @@
       "dynamic": {
         "path": "native/darwin-arm64/libtobbins_sqlite.dylib",
         "bytes": 2297632,
-        "sha256": "acd1588a151063c1230fb2f12a241ca49ad0babcbed2f232546cdfceffce3d74"
+        "sha256": "a50f066f4f2c1d800c23708bfeaaa12d9448c1fb24481117a3ea35b4c92bc764"
       },
       "static": {
         "path": "native/darwin-arm64/libtobbins_sqlite.a",
         "bytes": 14531488,
-        "sha256": "4e0122a9979d569301b64850cfc61cfbd0e00da0ae540f2c6e865adc6fc6f5d2"
+        "sha256": "14bf25710114c24e2c6e8aff21e1c1f4b0796405bfd23ef64383749a2f3d3671"
       }
     }
   },

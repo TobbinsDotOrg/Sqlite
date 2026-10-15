@@ -31,6 +31,10 @@ if a.zig:
         linkwrapper.write_text('@python "'+str(linkhelper)+'" %*\n')
         env['CARGO_TARGET_AARCH64_APPLE_DARWIN_LINKER']=str(linkwrapper)
         env['CARGO_TARGET_AARCH64_APPLE_DARWIN_RUSTFLAGS']='-C linker-flavor=ld64.lld -C link-arg=-L'+str(Path(a.zig).resolve().parent/'lib/libc/darwin')
+if a.target=='darwin-arm64':
+    key='CARGO_TARGET_AARCH64_APPLE_DARWIN_RUSTFLAGS'
+    extra=' -C link-arg=-install_name -C link-arg=@rpath/libtobbins_sqlite.dylib' if a.zig else ' -C link-arg=-Wl,-install_name,@rpath/libtobbins_sqlite.dylib'
+    env[key]=env.get(key,'')+extra
 print(run(['cargo','build','--locked','--release','--target',triple]))
 source=ROOT/'target'/triple/'release';dest=ROOT/'native'/a.target;dest.mkdir(parents=True,exist_ok=True)
 metadata=json.loads((ROOT/'native.pebble.json').read_text())['platforms'][a.target]
@@ -68,4 +72,3 @@ else:
     run([llvm/('llvm-objcopy'+ext),'--strip-debug','--redefine-syms='+str(mapping),source/static,dest/static])
 if not a.target.startswith('windows'):run([llvm/('llvm-strip'+ext),'--strip-debug',dest/dynamic])
 print(f'{a.target}: {dynamic}, {static}; isolated {len(names)} private symbols')
-
