@@ -1,5 +1,0 @@
-/target/
-/dist/
-/tests/work/
-*.db
-*.db-journal
